@@ -22,7 +22,7 @@ def extract_deliverables_node(state: dict) -> dict:
     system_prompt = """You are extracting deliverables for calendar scheduling.
 
 For each deliverable with a due date, provide:
-- summary: Brief title (e.g., "Instagram Reel Due")
+- summary: Brief title with company name included (e.g., "Instagram Reel Due for Company")
 - description: What needs to be delivered
 - start_date: Date in YYYY-MM-DD format
 - start_time: Time in HH:MM 24-hour format if specified, otherwise null
@@ -43,7 +43,7 @@ Use double quotes for all strings. No trailing commas.
 Format:
 [
   {
-    "summary": "Instagram Reel Due",
+    "summary": "Instagram Reel Due for Company",
     "description": "Create 30-second reel",
     "start_date": "2025-12-01",
     "start_time": "17:00",

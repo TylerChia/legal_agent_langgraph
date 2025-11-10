@@ -1,5 +1,6 @@
 """
 Notifications node - sends email and calendar invites
+Enhanced with better error logging
 """
 import os
 import json
@@ -28,22 +29,37 @@ def send_notifications_node(state: dict) -> dict:
     results = []
     
     # Send email summary with company name in subject
+    print(f"📧 Attempting to send email to {user_email}")
+    print(f"📄 Summary file: {summary_file}")
+    print(f"📄 File exists: {os.path.exists(summary_file) if summary_file else 'N/A'}")
+    
     if summary_file and os.path.exists(summary_file):
         try:
             email_result = send_summary_email(user_email, summary_file, company_name)
             results.append(email_result)
-            print("Email sent successfully!")
+            print(f"✅ {email_result}")
         except Exception as e:
-            results.append(f"Email error: {str(e)}")
+            error_msg = f"Email error: {str(e)}"
+            results.append(error_msg)
+            print(f"❌ {error_msg}")
+            # Print full traceback for debugging
+            import traceback
+            traceback.print_exc()
+    else:
+        no_file_msg = "No summary file to send"
+        results.append(no_file_msg)
+        print(f"{no_file_msg}")
     
     # Send calendar invites (creator mode only)
     if mode == "creator" and calendar_file and os.path.exists(calendar_file):
         try:
             calendar_result = send_calendar_invites(user_email)
             results.append(calendar_result)
-            print("Calendar events sent successfully!")
+            print(f"✅ {calendar_result}")
         except Exception as e:
-            results.append(f"Calendar error: {str(e)}")
+            error_msg = f"Calendar error: {str(e)}"
+            results.append(error_msg)
+            print(f"❌ {error_msg}")
     
     return {
         **state,
@@ -52,14 +68,26 @@ def send_notifications_node(state: dict) -> dict:
 
 def send_summary_email(recipient: str, summary_file: str, company_name: str = None) -> str:
     """Send email with contract summary"""
+    print(f"📧 Starting email send process...")
+    
+    # Check credentials
     sender_email = os.getenv("SENDER_EMAIL")
     sender_password = os.getenv("EMAIL_PASSWORD")
     
-    if not sender_email or not sender_password:
-        raise RuntimeError("Missing email credentials")
+    print(f"📧 Sender email configured: {bool(sender_email)}")
+    print(f"📧 Sender password configured: {bool(sender_password)}")
     
-    with open(summary_file, "r", encoding="utf-8") as f:
-        summary_text = f.read()
+    if not sender_email or not sender_password:
+        raise RuntimeError("Missing email credentials (SENDER_EMAIL or EMAIL_PASSWORD)")
+    
+    # Read summary file
+    print(f"📧 Reading summary from: {summary_file}")
+    try:
+        with open(summary_file, "r", encoding="utf-8") as f:
+            summary_text = f.read()
+        print(f"📧 Summary length: {len(summary_text)} characters")
+    except Exception as e:
+        raise RuntimeError(f"Failed to read summary file: {str(e)}")
     
     # Clean up any markdown code blocks
     summary_text = summary_text.strip()
@@ -75,6 +103,10 @@ def send_summary_email(recipient: str, summary_file: str, company_name: str = No
     else:
         subject = f"Contract Summary - {today}"
     
+    print(f"📧 Email subject: {subject}")
+    print(f"📧 Recipient: {recipient}")
+    
+    # Build email
     msg = MIMEMultipart("alternative")
     msg["From"] = sender_email
     msg["To"] = recipient
@@ -87,9 +119,21 @@ def send_summary_email(recipient: str, summary_file: str, company_name: str = No
     msg.attach(plain_part)
     msg.attach(html_part)
     
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(sender_email, sender_password)
-        server.send_message(msg)
+    # Send email
+    print(f"📧 Connecting to SMTP server...")
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            print(f"📧 Logging in as {sender_email}...")
+            server.login(sender_email, sender_password)
+            print(f"📧 Sending message...")
+            server.send_message(msg)
+            print(f"📧 Message sent successfully!")
+    except smtplib.SMTPAuthenticationError as e:
+        raise RuntimeError(f"SMTP Authentication failed: {str(e)}. Check your SENDER_EMAIL and EMAIL_PASSWORD.")
+    except smtplib.SMTPException as e:
+        raise RuntimeError(f"SMTP error: {str(e)}")
+    except Exception as e:
+        raise RuntimeError(f"Unexpected email error: {str(e)}")
     
     return f"✅ Email sent to {recipient}"
 

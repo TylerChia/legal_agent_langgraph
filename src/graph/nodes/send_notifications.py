@@ -32,6 +32,7 @@ def send_notifications_node(state: dict) -> dict:
         try:
             email_result = send_summary_email(user_email, summary_file, company_name)
             results.append(email_result)
+            print("Email sent successfully!")
         except Exception as e:
             results.append(f"Email error: {str(e)}")
     
@@ -40,6 +41,7 @@ def send_notifications_node(state: dict) -> dict:
         try:
             calendar_result = send_calendar_invites(user_email)
             results.append(calendar_result)
+            print("Calendar events sent successfully!")
         except Exception as e:
             results.append(f"Calendar error: {str(e)}")
     

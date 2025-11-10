@@ -205,7 +205,6 @@ rsa==4.9.1
 safetensors==0.4.5
 scikit-learn==1.7.2
 scipy==1.16.2
-sendgrid-6.12.5
 selenium==4.15.2
 selenium-stealth==1.0.6
 sentence-transformers==5.1.1

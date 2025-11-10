@@ -12,7 +12,7 @@ import re
 from werkzeug.security import check_password_hash
 
 # Import the LangGraph workflow
-from graph.legal_graph import run_legal_analysis
+from src.graph.legal_graph import run_legal_analysis
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY") or "dev-secret-key-change-in-production"

@@ -38,13 +38,13 @@ def create_legal_graph(mode: str = "legal"):
     Args:
         mode: 'legal' for basic analysis, 'creator' for brand deal analysis
     """
-    from graph.nodes.extract_company import extract_company_node
-    from graph.nodes.parse_contract import parse_contract_node
-    from graph.nodes.analyze_risk import analyze_risks_node
-    from graph.nodes.research_terms import research_terms_node
-    from graph.nodes.extract_deliverables import extract_deliverables_node
-    from graph.nodes.write_summary import write_summary_node
-    from graph.nodes.send_notifications import send_notifications_node
+    from src.graph.nodes.extract_company import extract_company_node
+    from src.graph.nodes.parse_contract import parse_contract_node
+    from src.graph.nodes.analyze_risk import analyze_risks_node
+    from src.graph.nodes.research_terms import research_terms_node
+    from src.graph.nodes.extract_deliverables import extract_deliverables_node
+    from src.graph.nodes.write_summary import write_summary_node
+    from src.graph.nodes.send_notifications import send_notifications_node
     
     # Create the graph
     workflow = StateGraph(ContractState)

@@ -4,8 +4,8 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        START: Contract Upload                    │
-│                    (PDF → Text Extraction)                       │
+│                        START: Contract Upload                   │
+│                    (PDF → Text Extraction)                      │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
@@ -39,7 +39,7 @@
                              │
                              ▼
                   ┌──────────────────────┐
-                  │  4. Research Terms   │  ← NEW STEP!
+                  │  4. Research Terms   │ 
                   │                      │
                   │  • Detect unclear    │
                   │    legal terms       │
@@ -52,14 +52,14 @@
               ┌──────────────┴──────────────┐
               │                             │
               ▼ (creator mode)              ▼ (legal mode)
-   ┌──────────────────────┐                │
-   │ 5a. Extract          │                │
-   │     Deliverables     │                │
-   │                      │                │
-   │ • Due dates          │                │
-   │ • Times & timezones  │                │
-   │ • Calendar format    │                │
-   └──────────┬───────────┘                │
+   ┌──────────────────────┐                 │
+   │ 5a. Extract          │                 │
+   │     Deliverables     │                 │
+   │                      │                 │
+   │ • Due dates          │                 │
+   │ • Times & timezones  │                 │
+   │ • Calendar format    │                 │
+   └──────────┬───────────┘                 │
               │                             │
               └──────────────┬──────────────┘
                              │
@@ -87,7 +87,7 @@
                   ┌──────────────────────┐
                   │         END          │
                   │                      │
-                  │  ✅ Analysis         │
+                  │     Analysis         │
                   │     Complete         │
                   └──────────────────────┘
 ```

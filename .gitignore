@@ -1,0 +1,9 @@
+.env
+__pycache__/
+.DS_Store
+contract_summary.md
+contractcalendarapp-906f430b7834.json
+token.json
+desktop_credentials.json
+client_secret.json
+calendar_deliverables.json

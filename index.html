@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Legal Contract Analysis Assistant</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 1rem 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        section {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        section h2 {
+            font-size: 1.8rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        section p {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .screenshot {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 1.5rem 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tech-item strong {
+            color: #2563eb;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #111827;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .workflow-diagram {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin: 2rem 0;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .workflow-step .step-number {
+            background: #2563eb;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .workflow-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #2563eb;
+            margin: 0.5rem 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-box {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .feature-box h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin: 2rem 0;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .comparison-table th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #111827;
+            color: #d1d5db;
+            padding: 2rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        code {
+            background: #f3f4f6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>⚖️ AI Legal Contract Analysis Assistant</h1>
+        <p>An intelligent contract review platform built with LangGraph, OpenAI, and modern web technologies. Automatically analyzes contracts, identifies risks, researches unclear terms, and delivers comprehensive summaries.</p>
+        <div>
+            <span class="badge">🚀 Production Ready</span>
+            <span class="badge">🤖 LangGraph Powered</span>
+            <span class="badge">📧 Automated Delivery</span>
+        </div>
+    </header>
+
+    <section id="overview" class="fade-in">
+        <h2>📘 Project Overview</h2>
+        <p>
+            This system revolutionizes contract review by leveraging state-of-the-art AI technology. Built on <strong>LangGraph</strong> and <strong>OpenAI GPT-5-mini</strong>, 
+            it provides intelligent analysis tailored for both general legal contracts and creator/influencer brand deals.
+        </p>
+        <div class="feature-grid">
+            <div class="feature-box">
+                <h3>🎯 Dual Mode</h3>
+                <p>Legal & Creator modes for different contract types</p>
+            </div>
+            <div class="feature-box">
+                <h3>🧠 Intelligent Research</h3>
+                <p>AI identifies & researches unclear terms automatically</p>
+            </div>
+            <div class="feature-box">
+                <h3>📅 Calendar Integration</h3>
+                <p>Auto-creates Google Calendar events for deliverables</p>
+            </div>
+            <div class="feature-box">
+                <h3>📧 Email Summaries</h3>
+                <p>Professional summaries delivered to your inbox</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tech-stack" class="fade-in">
+        <h2>🛠️ Technology Stack</h2>
+        <div class="tech-stack">
+            <div class="tech-item"><strong>Backend:</strong> Python, Flask</div>
+            <div class="tech-item"><strong>AI Framework:</strong> LangGraph, LangChain</div>
+            <div class="tech-item"><strong>LLM:</strong> GPT-5-mini</div>
+            <div class="tech-item"><strong>PDF Processing:</strong> pdfplumber</div>
+            <div class="tech-item"><strong>Web Search:</strong> DuckDuckGo Search API</div>
+            <div class="tech-item"><strong>Email:</strong> SMTP (Gmail)</div>
+            <div class="tech-item"><strong>Calendar:</strong> Google Calendar API</div>
+            <div class="tech-item"><strong>Deployment:</strong> Render</div>
+            <div class="tech-item"><strong>Frontend:</strong> HTML, CSS, JavaScript</div>
+        </div>
+    </section>
+
+    <section id="architecture" class="fade-in">
+        <h2>🏗️ System Architecture</h2>
+        <div class="workflow-diagram">
+            <h3 style="margin-bottom: 1rem; color: #2563eb;">LangGraph Workflow Pipeline</h3>
+            
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <div>
+                    <strong>Extract Company Name</strong>
+                    <p>Uses LLM + regex fallback to identify the primary company/brand for email subject line</p>
+                </div>
+            </div>
+            
+            <div class="workflow-arrow">↓</div>
+            
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <div>
+                    <strong>Parse Contract</strong>
+                    <p>Extracts clauses, deliverables, payment terms, legal flags, and key obligations</p>
+                </div>
+            </div>
+            
+            <div class="workflow-arrow">↓</div>
+            
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <div>
+                    <strong>Analyze Risks</strong>
+                    <p>Identifies content ownership, exclusivity, usage rights, and payment risks with severity scoring</p>
+                </div>
+            </div>
+            
+            <div class="workflow-arrow">↓</div>
+            
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <div>
+                    <strong>Research Unclear Terms</strong>
+                    <p>AI identifies complex legal terms → web search → generates creator-friendly explanations</p>
+                </div>
+            </div>
+            
+            <div class="workflow-arrow">↓</div>
+            
+            <div class="workflow-step">
+                <div class="step-number">5</div>
+                <div>
+                    <strong>Extract Deliverables (Creator Mode)</strong>
+                    <p>Identifies due dates, times, timezones for Google Calendar integration</p>
+                </div>
+            </div>
+            
+            <div class="workflow-arrow">↓</div>
+            
+            <div class="workflow-step">
+                <div class="step-number">6</div>
+                <div>
+                    <strong>Write Summary</strong>
+                    <p>Generates markdown summary with risk highlights and research explanations</p>
+                </div>
+            </div>
+            
+            <div class="workflow-arrow">↓</div>
+            
+            <div class="workflow-step">
+                <div class="step-number">7</div>
+                <div>
+                    <strong>Send Notifications</strong>
+                    <p>Emails summary + creates calendar invites with deliverable reminders</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="nodes" class="fade-in">
+        <h2>🧩 Intelligent Node System</h2>
+        <p>Each node in the LangGraph workflow performs a specialized function with robust error handling and state management:</p>
+
+        <div class="cards">
+            <div class="card">
+                <h3>🏢 Company Extraction</h3>
+                <p>Dual-approach extraction using LLM with regex fallback. Identifies company name for personalized email subjects.</p>
+            </div>
+            <div class="card">
+                <h3>📄 Contract Parser</h3>
+                <p>Extracts structured data from contracts with JSON validation. Handles malformed responses gracefully.</p>
+            </div>
+            <div class="card">
+                <h3>⚠️ Risk Analyzer</h3>
+                <p>Evaluates legal and business risks specific to creators. Rates severity and provides recommendations.</p>
+            </div>
+            <div class="card">
+                <h3>🔍 Intelligent Research</h3>
+                <p>LLM identifies unclear terms → web search → summarization. Adapts to any contract language.</p>
+            </div>
+            <div class="card">
+                <h3>📅 Deliverables Extraction</h3>
+                <p>Parses dates, times, and timezones. Creates structured calendar-ready data.</p>
+            </div>
+            <div class="card">
+                <h3>✍️ Summary Generator</h3>
+                <p>Creates creator-friendly summaries with risk highlights and term explanations in markdown.</p>
+            </div>
+            <div class="card">
+                <h3>📧 Notification System</h3>
+                <p>SMTP email delivery + Google Calendar API integration. Port 465 for cloud hosting compatibility.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="comparison" class="fade-in">
+        <h2>🔄 CrewAI → LangGraph Migration</h2>
+        <p>The system was migrated from CrewAI to LangGraph for better production reliability and control:</p>
+        
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>CrewAI (Original)</th>
+                        <th>LangGraph (Current)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Architecture</strong></td>
+                        <td>Agent-based orchestration</td>
+                        <td>State machine with explicit flow</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Telemetry</strong></td>
+                        <td>Interactive prompts causing hangs</td>
+                        <td>No telemetry issues</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Error Handling</strong></td>
+                        <td>Opaque agent failures</td>
+                        <td>Per-node error handling with fallbacks</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance</strong></td>
+                        <td>Slower agent orchestration</td>
+                        <td>30-50% faster execution</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Debugging</strong></td>
+                        <td>Difficult to trace state</td>
+                        <td>Clear state flow, easy debugging</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Production</strong></td>
+                        <td>Required workarounds</td>
+                        <td>Production-ready out of box</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="features" class="fade-in">
+        <h2>✨ Key Features</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>🎭 Dual Mode Analysis</h3>
+                <p><strong>Legal Mode:</strong> General contract analysis<br>
+                <strong>Creator Mode:</strong> Brand deal focus with deliverables and calendar integration</p>
+            </div>
+            <div class="card">
+                <h3>🔒 Secure Authentication</h3>
+                <p>Password-protected interface with session management. Hashed credentials via Werkzeug.</p>
+            </div>
+            <div class="card">
+                <h3>🧠 Contextual Research</h3>
+                <p>AI identifies which terms need clarification per contract. No predefined lists, fully adaptive.</p>
+            </div>
+            <div class="card">
+                <h3>📊 Robust JSON Parsing</h3>
+                <p>Multi-method extraction handles malformed LLM responses. Graceful fallbacks ensure continuity.</p>
+            </div>
+            <div class="card">
+                <h3>🌐 Web Integration</h3>
+                <p>DuckDuckGo search for legal definitions. Google Calendar API for deliverable tracking.</p>
+            </div>
+            <div class="card">
+                <h3>📱 Responsive UI</h3>
+                <p>Clean interface with loading states, toast notifications, and mode switching.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="frontend" class="fade-in">
+        <h2>💻 User Interface</h2>
+        <img src="assets/frontend.png" alt="Frontend Screenshot" class="screenshot" style="max-width: 600px; display: block; margin: 1.5rem auto;"">
+        <p>
+            Simple Flask-based web interface with mode switching between Legal and Creator analysis. 
+            Users upload PDF contracts, enter email, and receive comprehensive analysis within minutes.
+        </p>
+    </section>
+
+    <section id="output" class="fade-in">
+        <h2>📬 Sample Output</h2>
+        <img src="assets/email_calendar.png" alt="Email Output Example" class="screenshot">
+        <p>
+            Users receive professionally formatted email summaries with:
+        </p>
+        <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+            <li>📋 Company name in subject line</li>
+            <li>📝 Brand deal overview</li>
+            <li>📅 Deliverables with due dates</li>
+            <li>💰 Payment terms</li>
+            <li>⚠️ Risk analysis with severity ratings</li>
+            <li>📖 Key Terms Explained (with web research)</li>
+            <li>📆 Google Calendar invites (Creator mode)</li>
+        </ul>
+    </section>
+
+    <section id="deployment" class="fade-in">
+        <h2>🚀 Production Deployment</h2>
+        <p>Deployed on <strong>Render</strong> with the following considerations:</p>
+        <div class="cards">
+            <div class="card">
+                <h3>🔧 Environment Variables</h3>
+                <p><code>OPENAI_API_KEY</code>, <code>SENDER_EMAIL</code>, <code>EMAIL_PASSWORD</code>, <code>GOOGLE_CALENDAR_TOKEN_JSON</code>, <code>SECRET_KEY</code>, <code>APP_PASSWORD_HASH</code></p>
+            </div>
+            <div class="card">
+                <h3>📧 Email Configuration</h3>
+                <p>Port 465 for Render compatibility. Gmail App Password required.</p>
+            </div>
+            <div class="card">
+                <h3>🔐 Security</h3>
+                <p>Werkzeug password hashing, session management, HTTPS endpoints.</p>
+            </div>
+            <div class="card">
+                <h3>⚡ Performance</h3>
+                <p>Gunicorn server, concurrent request handling, efficient state management.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Created by Tyler Chia — November 2025</p>
+        <p>Built with Python • Flask • LangGraph • GPT-5-mini • Google APIs</p>
+    </footer>
+
+    <script>
+        // Smooth fade-in animations on scroll
+        const sections = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>

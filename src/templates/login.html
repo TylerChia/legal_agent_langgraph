@@ -7,27 +7,125 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9fafb;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+        }
+
+        /* Animated rotating circle */
+        .rotating-circle {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .rotating-circle::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                transparent 90deg,
+                rgba(255, 165, 0, 0.3) 90deg,
+                rgba(255, 165, 0, 0.6) 180deg,
+                rgba(255, 165, 0, 0.3) 270deg,
+                transparent 270deg
+            );
+            animation: rotate 20s linear infinite;
+        }
+
+        /* Individual rotating segments */
+        .segment {
+            position: absolute;
+            width: 60px;
+            height: 15px;
+            background: linear-gradient(90deg, rgba(255, 165, 0, 0.8), rgba(255, 140, 0, 0.4));
+            border-radius: 10px;
+            transform-origin: 0 250px;
+            top: 50%;
+            left: 50%;
+            margin-left: -30px;
+            margin-top: -7.5px;
+        }
+
+        /* Create segments around the circle */
+        .segment:nth-child(1) { transform: rotate(0deg) translateY(-250px); }
+        .segment:nth-child(2) { transform: rotate(12deg) translateY(-250px); }
+        .segment:nth-child(3) { transform: rotate(24deg) translateY(-250px); }
+        .segment:nth-child(4) { transform: rotate(36deg) translateY(-250px); }
+        .segment:nth-child(5) { transform: rotate(48deg) translateY(-250px); }
+        .segment:nth-child(6) { transform: rotate(60deg) translateY(-250px); }
+        .segment:nth-child(7) { transform: rotate(72deg) translateY(-250px); }
+        .segment:nth-child(8) { transform: rotate(84deg) translateY(-250px); }
+        .segment:nth-child(9) { transform: rotate(96deg) translateY(-250px); }
+        .segment:nth-child(10) { transform: rotate(108deg) translateY(-250px); }
+        .segment:nth-child(11) { transform: rotate(120deg) translateY(-250px); }
+        .segment:nth-child(12) { transform: rotate(132deg) translateY(-250px); }
+        .segment:nth-child(13) { transform: rotate(144deg) translateY(-250px); }
+        .segment:nth-child(14) { transform: rotate(156deg) translateY(-250px); }
+        .segment:nth-child(15) { transform: rotate(168deg) translateY(-250px); }
+        .segment:nth-child(16) { transform: rotate(180deg) translateY(-250px); }
+        .segment:nth-child(17) { transform: rotate(192deg) translateY(-250px); }
+        .segment:nth-child(18) { transform: rotate(204deg) translateY(-250px); }
+        .segment:nth-child(19) { transform: rotate(216deg) translateY(-250px); }
+        .segment:nth-child(20) { transform: rotate(228deg) translateY(-250px); }
+        .segment:nth-child(21) { transform: rotate(240deg) translateY(-250px); }
+        .segment:nth-child(22) { transform: rotate(252deg) translateY(-250px); }
+        .segment:nth-child(23) { transform: rotate(264deg) translateY(-250px); }
+        .segment:nth-child(24) { transform: rotate(276deg) translateY(-250px); }
+        .segment:nth-child(25) { transform: rotate(288deg) translateY(-250px); }
+        .segment:nth-child(26) { transform: rotate(300deg) translateY(-250px); }
+        .segment:nth-child(27) { transform: rotate(312deg) translateY(-250px); }
+        .segment:nth-child(28) { transform: rotate(324deg) translateY(-250px); }
+        .segment:nth-child(29) { transform: rotate(336deg) translateY(-250px); }
+        .segment:nth-child(30) { transform: rotate(348deg) translateY(-250px); }
+
+        /* Gradient fade effect on segments */
+        .segment:nth-child(n+1):nth-child(-n+8) { 
+            background: linear-gradient(90deg, rgba(100, 100, 120, 0.3), rgba(80, 80, 100, 0.1)); 
+        }
+        .segment:nth-child(n+9):nth-child(-n+16) { 
+            background: linear-gradient(90deg, rgba(255, 165, 0, 0.8), rgba(255, 140, 0, 0.4)); 
+        }
+        .segment:nth-child(n+17):nth-child(-n+24) { 
+            background: linear-gradient(90deg, rgba(255, 180, 50, 0.6), rgba(255, 160, 30, 0.3)); 
+        }
+        .segment:nth-child(n+25):nth-child(-n+30) { 
+            background: linear-gradient(90deg, rgba(150, 150, 170, 0.4), rgba(120, 120, 140, 0.2)); 
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .login-container {
-            background-color: white;
+            position: relative;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 40px 30px;
             border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             width: 320px;
             text-align: center;
         }
 
         .login-container h2 {
             margin-bottom: 25px;
-            font-size: 1.5rem;
-            color: #333;
+            font-size: 1.8rem;
+            color: #ff8c00;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         label {
@@ -35,43 +133,107 @@
             text-align: left;
             margin-bottom: 5px;
             font-weight: 500;
+            color: #333;
         }
 
         input[type="password"] {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 15px;
             margin-bottom: 20px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
             font-size: 1rem;
             box-sizing: border-box;
+            transition: border-color 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #ff8c00;
         }
 
         button {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 15px;
             border: none;
-            border-radius: 6px;
-            background-color: #2563eb;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
             color: white;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
         }
 
         button:hover {
-            background-color: #1e40af;
+            background: linear-gradient(135deg, #ffa500, #ff8c00);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         .error-message {
             color: #e74c3c;
             margin-bottom: 15px;
             font-size: 0.9rem;
+            background-color: rgba(231, 76, 60, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        /* Lock icon decoration */
+        .lock-icon {
+            font-size: 3rem;
+            color: #ff8c00;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
+    <!-- Animated rotating circle background -->
+    <div class="rotating-circle">
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+    </div>
+
     <div class="login-container">
+        <div class="lock-icon">🔐</div>
         <h2>Login</h2>
         {% if error %}
             <div class="error-message">{{ error }}</div>

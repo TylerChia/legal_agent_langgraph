@@ -229,14 +229,22 @@ def send_calendar_invites(user_email: str) -> str:
     
     created_count = 0
     existing_count = 0
-    
+    created_dates = []
+
     for deliverable in deliverables:
         result = create_calendar_event(service, deliverable, user_email)
         if "created" in result.lower():
             created_count += 1
+            start_date = deliverable.get('start_date', '')
+            if start_date:
+                dt = datetime.strptime(start_date, '%Y-%m-%d')
+                created_dates.append(dt.strftime('%b %d, %Y'))
         elif "exists" in result.lower():
             existing_count += 1
-    
+
+    dates_str = ", ".join(created_dates) if created_dates else ""
+    if dates_str:
+        return f"📅 Calendar: {created_count} Events Created for {dates_str}"
     return f"📅 Calendar: {created_count} Events Created"
 
 def create_calendar_event(service, deliverable: dict, user_email: str) -> str:

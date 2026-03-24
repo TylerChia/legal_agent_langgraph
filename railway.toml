@@ -1,0 +1,8 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "gunicorn src.app:app --bind 0.0.0.0:$PORT"
+healthcheckPath = "/login"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3

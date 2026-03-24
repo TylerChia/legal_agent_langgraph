@@ -229,7 +229,14 @@ def send_calendar_invites(user_email: str) -> str:
     
     if not creds.valid and creds.expired and creds.refresh_token:
         creds.refresh(Request())
-    
+        # Update the env var with refreshed token so it persists in-process
+        refreshed_token = creds.to_json()
+        os.environ['GOOGLE_CALENDAR_TOKEN_JSON'] = refreshed_token
+        print(f"🔄 Google Calendar token refreshed. Update your GOOGLE_CALENDAR_TOKEN_JSON env var if needed.")
+
+    if not creds.valid:
+        return "Calendar authentication expired. Please re-authenticate."
+
     service = build('calendar', 'v3', credentials=creds)
     
     created_count = 0

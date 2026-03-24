@@ -26,6 +26,9 @@ google-auth-httplib2==0.2.1
 duckduckgo_search==8.1.1
 ddgs==9.9.0
 
+# Email
+resend==2.5.0
+
 # Utilities
 python-dotenv==1.2.1
 markdown2==2.5.4

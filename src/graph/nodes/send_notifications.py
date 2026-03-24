@@ -4,17 +4,13 @@ Enhanced with better error logging
 """
 import os
 import json
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import resend
 import markdown2
 from datetime import datetime, timedelta
 import pytz
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-#from sendgrid import SendGridAPIClient
-#from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -136,19 +132,21 @@ def send_notifications_node(state: dict) -> dict:
 
 
 def send_summary_email(recipient: str, summary_file: str, company_name: str = None) -> str:
-    """Send email with contract summary"""
+    """Send email with contract summary via Resend"""
     print(f"📧 Starting email send process...")
-    
+
     # Check credentials
     sender_email = os.getenv("SENDER_EMAIL")
-    sender_password = os.getenv("EMAIL_PASSWORD")
-    
+    resend_api_key = os.getenv("RESEND_API_KEY")
+
     print(f"📧 Sender email configured: {bool(sender_email)}")
-    print(f"📧 Sender password configured: {bool(sender_password)}")
-    
-    if not sender_email or not sender_password:
-        raise RuntimeError("Missing email credentials (SENDER_EMAIL or EMAIL_PASSWORD)")
-    
+    print(f"📧 Resend API key configured: {bool(resend_api_key)}")
+
+    if not sender_email or not resend_api_key:
+        raise RuntimeError("Missing email credentials (SENDER_EMAIL or RESEND_API_KEY)")
+
+    resend.api_key = resend_api_key
+
     # Read summary file
     print(f"📧 Reading summary from: {summary_file}")
     try:
@@ -157,53 +155,43 @@ def send_summary_email(recipient: str, summary_file: str, company_name: str = No
         print(f"📧 Summary length: {len(summary_text)} characters")
     except Exception as e:
         raise RuntimeError(f"Failed to read summary file: {str(e)}")
-    
+
     # Clean up any markdown code blocks
     summary_text = summary_text.strip()
     if summary_text.startswith("```"):
         summary_text = summary_text[summary_text.find("\n")+1:]
     if summary_text.endswith("```"):
         summary_text = summary_text[:summary_text.rfind("\n")]
-    
+
     # Create subject line with company name
     today = datetime.now().strftime('%Y-%m-%d')
     if company_name and company_name != "Unknown Company":
         subject = f"Contract Summary - {today} - {company_name}"
     else:
         subject = f"Contract Summary - {today}"
-    
+
     print(f"📧 Email subject: {subject}")
     print(f"📧 Recipient: {recipient}")
-    
-    # Build email
-    msg = MIMEMultipart("alternative")
-    msg["From"] = sender_email
-    msg["To"] = recipient
-    msg["Subject"] = subject
-    
+
+    # Convert Markdown to HTML
     html_body = markdown2.markdown(summary_text)
-    plain_part = MIMEText(summary_text, "plain")
-    html_part = MIMEText(html_body, "html")
-    
-    msg.attach(plain_part)
-    msg.attach(html_part)
-    
-    # Send email
-    print(f"📧 Connecting to SMTP server...")
+
+    # Send via Resend API
+    print(f"📧 Sending via Resend API...")
     try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            print(f"📧 Logging in as {sender_email}...")
-            server.login(sender_email, sender_password)
-            print(f"📧 Sending message...")
-            server.send_message(msg)
-            print(f"📧 Message sent successfully!")
-    except smtplib.SMTPAuthenticationError as e:
-        raise RuntimeError(f"SMTP Authentication failed: {str(e)}. Check your SENDER_EMAIL and EMAIL_PASSWORD.")
-    except smtplib.SMTPException as e:
-        raise RuntimeError(f"SMTP error: {str(e)}")
+        params = {
+            "from": sender_email,
+            "to": [recipient],
+            "subject": subject,
+            "html": html_body,
+            "text": summary_text,
+        }
+        email = resend.Emails.send(params)
+        print(f"📧 Resend response: {email}")
+        print(f"📧 Message sent successfully!")
     except Exception as e:
-        raise RuntimeError(f"Unexpected email error: {str(e)}")
-    
+        raise RuntimeError(f"Resend email error: {str(e)}")
+
     return f"✅ Email sent to {recipient}"
 
 def send_calendar_invites(user_email: str) -> str:

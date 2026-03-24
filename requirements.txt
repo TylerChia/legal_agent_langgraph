@@ -1,36 +1,35 @@
 # Web framework
-Flask==3.1.2
-gunicorn==23.0.0
+Flask>=3.1
+gunicorn>=23.0
 
 # LangChain / LangGraph
-langchain==1.0.0
-langchain-core==1.0.4
-langchain-openai==1.0.2
-langchain-community==0.4
-langgraph==1.0.0
+langchain>=1.0
+langchain-core>=1.0
+langchain-openai>=1.0
+langchain-community>=0.4
+langgraph>=1.0
 
 # OpenAI
-openai==1.109.1
-tiktoken==0.12.0
+openai>=1.0
+tiktoken>=0.12
 
 # PDF processing
-pdfplumber==0.11.7
+pdfplumber>=0.11
 
 # Google APIs (Calendar)
-google-api-python-client==2.187.0
-google-auth==2.41.1
-google-auth-oauthlib==1.2.3
-google-auth-httplib2==0.2.1
+google-api-python-client>=2.100
+google-auth>=2.20
+google-auth-oauthlib>=1.2
+google-auth-httplib2>=0.2
 
 # Search (used by langchain-community DuckDuckGoSearchRun)
-duckduckgo_search==8.1.1
-ddgs==9.9.0
+duckduckgo_search>=8.0
 
 # Email
-resend==2.5.0
+resend>=2.0
 
 # Utilities
-python-dotenv==1.2.1
-markdown2==2.5.4
-pytz==2023.3.post1
-pydantic==2.12.1
+python-dotenv>=1.0
+markdown2>=2.5
+pytz>=2023.3
+pydantic>=2.0

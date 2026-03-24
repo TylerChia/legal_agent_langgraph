@@ -236,7 +236,7 @@
 <body>
 
     <header>
-        <h1>⚖️ AI Legal Contract Analyer </h1>
+        <h1>⚖️ AI Legal Contract Analyzer</h1>
         <p>An intelligent contract review platform built with LangGraph, OpenAI, and modern web technologies. Automatically analyzes contracts, identifies risks, researches unclear terms, and delivers comprehensive summaries.</p>
         <div>
             <span class="badge">🚀 Production Ready</span>
@@ -279,9 +279,9 @@
             <div class="tech-item"><strong>LLM:</strong> GPT-5-mini</div>
             <div class="tech-item"><strong>PDF Processing:</strong> pdfplumber</div>
             <div class="tech-item"><strong>Web Search:</strong> DuckDuckGo Search API</div>
-            <div class="tech-item"><strong>Email:</strong> SMTP (Gmail)</div>
+            <div class="tech-item"><strong>Email:</strong> Resend API</div>
             <div class="tech-item"><strong>Calendar:</strong> Google Calendar API</div>
-            <div class="tech-item"><strong>Deployment:</strong> Render</div>
+            <div class="tech-item"><strong>Deployment:</strong> Railway</div>
             <div class="tech-item"><strong>Frontend:</strong> HTML, CSS, JavaScript</div>
         </div>
     </section>
@@ -392,7 +392,7 @@
             </div>
             <div class="card">
                 <h3>📧 Notification System</h3>
-                <p>SMTP email delivery + Google Calendar API integration. Port 465 for cloud hosting compatibility.</p>
+                <p>Resend API email delivery + Google Calendar API integration for cloud-native hosting.</p>
             </div>
         </div>
     </section>
@@ -479,7 +479,7 @@
 
     <section id="frontend" class="fade-in">
         <h2>💻 User Interface</h2>
-        <img src="assets/frontend.png" alt="Frontend Screenshot" class="screenshot" style="max-width: 600px; display: block; margin: 1.5rem auto;"">
+        <img src="assets/frontend.png" alt="Frontend Screenshot" class="screenshot" style="max-width: 600px; display: block; margin: 1.5rem auto;">
         <p>
             Simple Flask-based web interface with mode switching between Legal and Creator analysis. 
             Users upload PDF contracts, enter email, and receive comprehensive analysis within minutes.
@@ -505,15 +505,15 @@
 
     <section id="deployment" class="fade-in">
         <h2>🚀 Production Deployment</h2>
-        <p>Deployed on <strong>Render</strong> with the following considerations:</p>
+        <p>Deployed on <strong>Railway</strong> with the following considerations:</p>
         <div class="cards">
             <div class="card">
                 <h3>🔧 Environment Variables</h3>
-                <p><code>OPENAI_API_KEY</code>, <code>SENDER_EMAIL</code>, <code>EMAIL_PASSWORD</code>, <code>GOOGLE_CALENDAR_TOKEN_JSON</code>, <code>SECRET_KEY</code>, <code>APP_PASSWORD_HASH</code></p>
+                <p><code>OPENAI_API_KEY</code>, <code>SENDER_EMAIL</code>, <code>RESEND_API_KEY</code>, <code>GOOGLE_CALENDAR_TOKEN_JSON</code>, <code>SECRET_KEY</code>, <code>APP_PASSWORD_HASH</code></p>
             </div>
             <div class="card">
                 <h3>📧 Email Configuration</h3>
-                <p>Port 465 for Render compatibility. Gmail App Password required.</p>
+                <p>Resend API for reliable cloud-native email delivery. No SMTP port restrictions.</p>
             </div>
             <div class="card">
                 <h3>🔐 Security</h3>
@@ -521,14 +521,14 @@
             </div>
             <div class="card">
                 <h3>⚡ Performance</h3>
-                <p>Gunicorn server, concurrent request handling, efficient state management.</p>
+                <p>Gunicorn with 500s timeout and 2 workers for long-running LLM workflows.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>Created by Tyler Chia — November 2025</p>
-        <p>Built with Python • Flask • LangGraph • GPT-5-mini • Google APIs</p>
+        <p>Created by Tyler Chia — 2025</p>
+        <p>Built with Python • Flask • LangGraph • GPT-5-mini • Resend • Google APIs • Railway</p>
     </footer>
 
     <script>

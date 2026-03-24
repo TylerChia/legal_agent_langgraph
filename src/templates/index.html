@@ -310,6 +310,13 @@
             width: 85%;
             position: relative;
             animation: slideIn 0.3s ease-out;
+            line-height: 1.6;
+        }
+
+        .toast-detail {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-top: 0.3rem;
         }
 
         @keyframes slideIn {
@@ -476,9 +483,22 @@
     
                 const data = await response.json();
                 loading.classList.add('hidden');
-    
-                // Only show toast for contract processing results
-                showToast(data.message, data.success ? 'success' : 'error');
+
+                if (data.success) {
+                    let msg = `✅ ${data.message}`;
+                    if (data.company && data.company !== 'Unknown') {
+                        msg += `<div class="toast-detail">🏢 ${data.company}</div>`;
+                    }
+                    if (data.email_sent) {
+                        msg += `<div class="toast-detail">📧 Summary emailed to ${data.email}</div>`;
+                    }
+                    if (data.calendar) {
+                        msg += `<div class="toast-detail">${data.calendar}</div>`;
+                    }
+                    showToast(msg, 'success');
+                } else {
+                    showToast(data.message, 'error');
+                }
             } catch (err) {
                 loading.classList.add('hidden');
                 showToast('Something went wrong. Please try again.', 'error');
@@ -497,7 +517,7 @@
             toast.classList.remove('hidden');
             toast.classList.remove('success', 'error');
             toast.classList.add(type);
-            toastMessage.textContent = message;
+            toastMessage.innerHTML = message;
         }
     
         closeBtn.addEventListener('click', () => {

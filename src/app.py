@@ -129,17 +129,25 @@ def upload():
                 "message": f"Analysis error: {final_state['error']}"
             }), 500
         
-        # Build success message
+        # Build success response
         notification_results = final_state.get("notification_results", [])
-        message = f"Contract processed! Check your email ({user_email})."
-        
-        # Add calendar info if available
+
+        # Check email status
+        email_results = [r for r in notification_results if "Email" in r or "email" in r or "✅" in r]
+        email_sent = any("✅" in r for r in email_results)
+
+        # Check calendar status
         calendar_results = [r for r in notification_results if "Calendar" in r or "📅" in r]
-        if calendar_results:
-            message += f" {calendar_results[0]}"
-        
+
         print("✅ Analysis completed successfully")
-        return jsonify({"success": True, "message": message})
+        return jsonify({
+            "success": True,
+            "email_sent": email_sent,
+            "email": user_email,
+            "calendar": calendar_results[0] if calendar_results else None,
+            "company": final_state.get("company_name", "Unknown"),
+            "message": "Contract analyzed successfully!"
+        })
         
     except Exception as e:
         print(f"❌ Error in upload: {str(e)}")

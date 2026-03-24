@@ -24,6 +24,7 @@ google-auth-httplib2==0.2.1
 
 # Search (used by langchain-community DuckDuckGoSearchRun)
 duckduckgo_search==8.1.1
+ddgs==9.9.0
 
 # Utilities
 python-dotenv==1.2.1
